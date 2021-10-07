@@ -2,7 +2,13 @@
 
 [![Java Build](https://github.com/ousheobin/sQuery/actions/workflows/maven.yml/badge.svg)](https://github.com/ousheobin/sQuery/actions/workflows/maven.yml)
 
-一个很好玩的支持单表十亿行的百分比查询小工具 （百分比以外功能正在添加 ing)
+一个很好玩的支持单表十亿行的百分比查询小工具。
+
+sQuery 的想法和核心代码来自于之前参与的一个分析引擎设计活动，需要设计一个多线程的引擎支持对 10 亿行多列的数据表进行准确的百分比查询。
+
+目前只支持查询 long 类型的数据，double 类型正在添加。
+
+（百分比以外各种功能正在添加 ing...)
 
 ## 环境要求
 
@@ -45,9 +51,9 @@ cd squery
 首先，你需要有 JDK 1.8 和 Maven 3.3.9 （及以上版本）
 
 ```shell
-$ git clone https://github.com/ousheobin/sQuery.git
-$ cd sQuer
-$ mvn clean package -DskipTests
+git clone https://github.com/ousheobin/sQuery.git
+cd sQuer
+mvn clean package -DskipTests
 ```
 
-进入 target， 可以找到开头为 squery 的压缩包。
+进入 target 目录， 可以找到开头为 squery 的压缩包。
