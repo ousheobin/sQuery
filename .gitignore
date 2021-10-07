@@ -1,0 +1,22 @@
+# OS Related Files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# Java Class File
+*.class
+
+# Project Files
+*.jar
+.settings
+.classpath
+.project
+.idea
+
+# Target folders
+target
+out
+
+# Testing results
+tmp_workspace
