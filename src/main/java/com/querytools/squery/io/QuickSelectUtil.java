@@ -2,6 +2,7 @@ package com.querytools.squery.io;
 
 import com.querytools.squery.common.Config;
 import com.querytools.squery.common.TableRegistry;
+import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.nio.ByteBuffer;
@@ -9,6 +10,7 @@ import java.nio.channels.FileChannel;
 
 public class QuickSelectUtil {
 
+    private static final Logger LOGGER = Logger.getLogger(QuickSelectUtil.class);
     private static final String CONCAT_SYMBOL = "$$";
 
     private TableRegistry registry = TableRegistry.getIntstance();
@@ -40,9 +42,9 @@ public class QuickSelectUtil {
         }
         long selectStart = System.currentTimeMillis();
         long res = doSelect(0, count - 1, index);
-//        System.out.println("[Performance]["+Thread.currentThread().getName()+"] read ("+table+
-//                ","+column+","+bucket+") \t in "+(selectStart - start)+" ms, select in "
-//                + (System.currentTimeMillis() - selectStart) + " ms");
+        LOGGER.debug("[Performance] read ("+table+
+                ","+column+","+bucket+") in "+(selectStart - start)+" ms, select in "
+                + (System.currentTimeMillis() - selectStart) + " ms");
         return res;
     }
 

@@ -1,6 +1,7 @@
 package com.querytools.squery.io;
 
 import com.querytools.squery.common.Config;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,6 +17,8 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ReadController {
+
+    private static final Logger logger = Logger.getLogger(ReadController.class);
 
     private int subTaskCnt;
 
@@ -48,7 +51,7 @@ public class ReadController {
             ByteBuffer headerBuf = ByteBuffer.allocateDirect(Config.PREPARE_BUF_SIZE);
             long fileLength = randomAccessFile.length();
             long eachThreadRead = fileLength / Math.max(this.subTaskCnt,1);
-            System.out.println("[Debug] File size: " + fileLength + ", Each thread expect read: " + eachThreadRead);
+            logger.debug("File size: " + fileLength + ", Each thread expect read: " + eachThreadRead);
 
             int size = channel.read(headerBuf);
             if(size == -1){
@@ -110,7 +113,7 @@ public class ReadController {
             randomAccessFile.close();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Failed to initial columns info", e);
         }
     }
 
@@ -130,7 +133,7 @@ public class ReadController {
         try {
             latch.await();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.error("Caught exception when waiting all task to be completed",e);
         }
     }
 

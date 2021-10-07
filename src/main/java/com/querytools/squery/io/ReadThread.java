@@ -1,6 +1,7 @@
 package com.querytools.squery.io;
 
 import com.querytools.squery.common.Config;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.RandomAccessFile;
@@ -9,6 +10,7 @@ import java.nio.channels.FileChannel;
 
 public class ReadThread implements Runnable {
 
+    private static Logger logger = Logger.getLogger(ReadThread.class);
     private static final long[] transformMap = new long[Byte.MAX_VALUE];
 
     static {
@@ -104,7 +106,7 @@ public class ReadThread implements Runnable {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Read thread exception", e);
         }
 
         readController.updateReadCnt(readCnt);

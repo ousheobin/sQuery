@@ -3,13 +3,16 @@ package com.querytools.squery;
 import com.querytools.squery.common.FileUtil;
 import com.querytools.squery.common.TableRegistry;
 import com.querytools.squery.io.IOManager;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
 
 public class SQueryToolImpl implements SQueryTool{
 
+    private static final Logger logger = Logger.getLogger(SQueryToolImpl.class);
     private final TableRegistry tableRegistry = TableRegistry.getIntstance();
+
     private String workspaceDir;
     private IOManager ioManager;
 
@@ -77,7 +80,7 @@ public class SQueryToolImpl implements SQueryTool{
         }
         int tableSize = tableRegistry.getTableLineCnt(table);
         int rank = (int) Math.round(tableSize * percentile);
-//        System.out.println("[Debug] Read [" + table + "," + column + "," + percentile + "]" );
+        logger.debug("Read [" + table + "," + column + "," + percentile + "]" );
         return ioManager.readByIndex(table,column,rank);
     }
 

@@ -1,6 +1,8 @@
 package com.querytools.squery;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.BufferedReader;
@@ -20,16 +22,25 @@ public class SQueryToolImplTest {
     File testWorkspaceDir = new File("./tmp_workspace");
     File testResultsFile = new File("./test_result/results");
 
-    @Test
-    public void doTest() throws Exception {
-
-        List<String> results = new ArrayList<>();
-
+    @Before
+    public void setup(){
         if (testWorkspaceDir.exists()) {
             TestUtil.deleteAllFile(testWorkspaceDir);
             testWorkspaceDir.delete();
         }
         testWorkspaceDir.mkdir();
+    }
+
+    @After
+    public void tearDown(){
+        TestUtil.deleteAllFile(testWorkspaceDir);
+        testWorkspaceDir.delete();
+    }
+
+    @Test
+    public void doTest() throws Exception {
+
+        List<String> results = new ArrayList<>();
 
         try (BufferedReader resReader = new BufferedReader(new FileReader(testResultsFile))) {
             String line;
@@ -41,8 +52,6 @@ public class SQueryToolImplTest {
         testFirstLoad(results);
         testRecoveryFromMetadata(results);
 
-        TestUtil.deleteAllFile(testWorkspaceDir);
-        testWorkspaceDir.delete();
     }
 
 

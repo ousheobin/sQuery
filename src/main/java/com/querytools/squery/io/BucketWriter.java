@@ -1,6 +1,7 @@
 package com.querytools.squery.io;
 
 import com.querytools.squery.common.Config;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.nio.channels.FileChannel;
 
 public class BucketWriter {
 
+    private static final Logger logger = Logger.getLogger(BucketWriter.class);
     private int bucketIndex;
 
     private File workdir;
@@ -43,7 +45,7 @@ public class BucketWriter {
             buffer[bucket].putLong(value);
             bucketCount[bucket] ++;
         }catch (Exception ex){
-            ex.printStackTrace();
+            logger.error("Write bucket error.", ex);
         }
     }
 

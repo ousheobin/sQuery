@@ -1,11 +1,14 @@
 package com.querytools.squery.common;
 
+import org.apache.log4j.Logger;
+
 import java.io.*;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class TableRegistry {
 
+    private static Logger logger = Logger.getLogger(TableRegistry.class);
     private static TableRegistry tableRegistry = null;
 
     private ConcurrentHashMap<String, TableInfo> tableInfoMap = new ConcurrentHashMap<String, TableInfo>();
@@ -60,7 +63,7 @@ public class TableRegistry {
             oos.close();
             fos.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Dump metadata failed", e);
         }
     }
 
@@ -83,7 +86,8 @@ public class TableRegistry {
                 ois.close();
                 is.close();
             }catch (Exception ex){
-                ex.printStackTrace();
+                logger.error("Read metadata failed", ex);
+                logger.warn("Table Registry map will be rolled back.");
                 this.tableInfoMap.clear();
                 return false;
             }
