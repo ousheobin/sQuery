@@ -33,11 +33,11 @@ public class SQueryToolImpl implements SQueryTool{
             if(!dataFile.exists()){
                 throw new RuntimeException("Data file: " + fileName + " not exists.");
             }
-            String tbName = ioManager.load(dataFile);
+            String tbName = ioManager.load(dataFile, tableName);
             tableRegistry.dumpMetaData(tbName);
             ioManager.setApproximateMaxBucketCnt(tableRegistry.approximateMaxBucketCount());
         }else{
-            throw new RuntimeException("Table " + tableName + "exists. Cannot be loaded again.");
+            logger.warn("Table '" + tableName + "' is exists. Will skip loading.");
         }
     }
 
@@ -61,6 +61,7 @@ public class SQueryToolImpl implements SQueryTool{
                 tableName = tableName.substring(0, tableName.lastIndexOf('.'));
             }
             if(tableRegistry.containsTable(tableName)){
+                logger.warn("Table '" + tableName + "' is exists. Will skip loading.");
                 continue;
             }
             loadData(dataFile.getAbsolutePath(), tableName);
@@ -69,8 +70,12 @@ public class SQueryToolImpl implements SQueryTool{
 
     @Override
     public void removeTable(String tableName) throws Exception {
+        if(!tableRegistry.containsTable(tableName)){
+            throw new RuntimeException("Table '" + tableName + "' not exists");
+        }
         tableRegistry.removeTable(tableName);
         ioManager.removeTableData(tableName);
+        logger.info("Removed table: " + tableName);
     }
 
     @Override

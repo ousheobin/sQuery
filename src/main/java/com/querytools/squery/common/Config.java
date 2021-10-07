@@ -22,6 +22,7 @@ public class Config {
     private static final String CFG_BUFFER_SIZE = CFG_PREFIX + "bufferSize";
     private static final String CFG_PREPARE_BUF_SIZE = CFG_PREFIX + "prepareBufferSize";
     private static final String CFG_BUCKET_MASK_BITS = CFG_PREFIX + "bucketMaskBits";
+    public static final String CFG_WORKSPACE = CFG_PREFIX + "workspace";
 
     public static int READ_BUFFER_SIZE = READ_BUFFER_SIZE_DEFAULT;
     public static int BUFFER_SIZE = BUFFER_SIZE_DEFAULT;

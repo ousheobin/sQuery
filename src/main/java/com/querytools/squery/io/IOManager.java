@@ -32,12 +32,8 @@ public class IOManager {
         this.approximateMaxBucketCnt = approximateMaxBucketCnt;
     }
 
-    public String load(File dataFile) throws Exception {
+    public String load(File dataFile, String tableName) throws Exception {
         File workspaceFolder = new File(workspaceDir);
-        String tableName = dataFile.getName();
-        if(tableName.contains(".")){
-            tableName = tableName.substring(0, tableName.lastIndexOf('.'));
-        }
         int threadCnt = Runtime.getRuntime().availableProcessors() * 2;
         ThreadPool threadPool = ThreadPool.getInstance();
         File dataDir = new File(workspaceFolder, tableName);
