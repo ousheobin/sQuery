@@ -25,7 +25,7 @@
                 <include>sQuery</include>
             </includes>
             <fileMode>755</fileMode>
-            <outputDirectory>/sQuery</outputDirectory>
+            <outputDirectory>/squery</outputDirectory>
         </fileSet>
     </fileSets>
 </assembly>
