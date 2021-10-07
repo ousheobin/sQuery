@@ -1,0 +1,5 @@
+#!/bin/sh
+
+classpath=$(echo libs/*.jar | tr ' ' ':')
+
+java -classpath $classpath com.querytools.squery.Console $*
