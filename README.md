@@ -57,3 +57,7 @@ mvn clean package -DskipTests
 ```
 
 进入 target 目录， 可以找到开头为 squery 的压缩包。
+
+## 致谢
+
+本项目的场景与测试数据来自于阿里云天池竞赛平台的样例。([传送门](https://tianchi.aliyun.com/competition/entrance/531895/information))
