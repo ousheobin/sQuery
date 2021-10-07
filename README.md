@@ -52,11 +52,17 @@ cd squery
 
 ```shell
 git clone https://github.com/ousheobin/sQuery.git
-cd sQuer
+cd sQuery
 mvn clean package -DskipTests
 ```
 
 进入 target 目录， 可以找到开头为 squery 的压缩包。
+
+## 核心的想法
+
+1. load 阶段会根据表、列进行数据存储，并统计分布信息，以便高效查询
+2. 使用数值的前 n 位二进制值进行分桶，每次查询只需要载入少量数据即可
+3. 使用 Quick Select 算法，不需要排序即可找到 Top K 的值
 
 ## 致谢
 
