@@ -40,9 +40,9 @@ public class QuickSelectUtil {
         }
         long selectStart = System.currentTimeMillis();
         long res = doSelect(0, count - 1, index);
-        System.out.println("[Performance]["+Thread.currentThread().getName()+"] read ("+table+
-                ","+column+","+bucket+") \t in "+(selectStart - start)+" ms, select in "
-                + (System.currentTimeMillis() - selectStart) + " ms");
+//        System.out.println("[Performance]["+Thread.currentThread().getName()+"] read ("+table+
+//                ","+column+","+bucket+") \t in "+(selectStart - start)+" ms, select in "
+//                + (System.currentTimeMillis() - selectStart) + " ms");
         return res;
     }
 

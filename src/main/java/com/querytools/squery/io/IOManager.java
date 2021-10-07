@@ -51,8 +51,8 @@ public class IOManager {
         info.setTableLineCnt(readController.getTotalRead());
         info.setBucketCnt(readController.getBucketCnt());
         tableRegistry.addTable(info);
-        System.out.println("[Debug] Columns: " + Arrays.toString(readController.getColumns()));
-        System.out.println("[Debug] Total load record: " + readController.getTotalRead());
+//        System.out.println("[Debug] Columns: " + Arrays.toString(readController.getColumns()));
+//        System.out.println("[Debug] Total load record: " + readController.getTotalRead());
         System.out.println("[Performance] Load data in "+ (System.currentTimeMillis() - startTime) + " ms.");
         return tableName;
     }
