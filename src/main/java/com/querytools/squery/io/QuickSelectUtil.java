@@ -32,6 +32,7 @@ public class QuickSelectUtil {
     }
 
     public long select(String table, String column, int bucket, int index) throws IOException {
+        index = Math.max(1, index);
         long start = System.currentTimeMillis();
         String key = table + CONCAT_SYMBOL + column + CONCAT_SYMBOL + bucket;
         if(!key.equals(bucketKey)){
@@ -49,34 +50,35 @@ public class QuickSelectUtil {
     }
 
     private long doSelect(int low, int high, int k) {
-        int partition = partition(low, high);
-        if (partition == k - 1){
-            return data[partition];
-        } else if (partition < k - 1){
-            return doSelect(partition + 1, high, k);
-        } else{
-            return doSelect(low , partition - 1, k);
-        }
-    }
+        int begin = low;
+        int end = high;
+        int mid = (low + high) / 2;
+        long flag = data[mid];
+        data[mid] = data[low];
+        data[low] = flag;
 
-    private int partition(int left, int right) {
-        int mid = (left + right)/2;
-        long privot = data[mid];
-        int swapLoc = left;
-        data[mid] = data[right];
-        data[right] = privot;
-        for (int i = left; i <= right - 1; i++) {
-            if (data[i] <= privot) {
-                long tmp = data[swapLoc];
-                data[swapLoc] = data[i];
-                data[i] = tmp;
-                swapLoc++;
+        while (low < high){
+            while (low < high && data[high] >= flag){
+                high --;
+            }
+            if(low < high){
+                data[low ++] = data[high];
+            }
+            while (low < high && data[low] < flag){
+                low ++;
+            }
+            if(low < high){
+                data[high --] = data[low];
             }
         }
-        long tmp = data[swapLoc];
-        data[swapLoc] = data[right];
-        data[right] = tmp;
-        return swapLoc;
+        data[low] = flag;
+        if(low == k - 1){
+            return data[k-1];
+        }else if(low < k - 1){
+            return doSelect(low + 1, end, k );
+        }else{
+            return doSelect(begin, low - 1, k);
+        }
     }
 
     public void loadData(File folder, int bucket, int count) throws IOException {
