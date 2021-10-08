@@ -87,6 +87,11 @@ public class IOManager {
             throw new RuntimeException("Cannot find data of table: " + table);
         }
         for(File f: folder.listFiles()){
+            if(f.isDirectory()){
+                for(File dataFile : f.listFiles()){
+                    dataFile.delete();
+                }
+            }
             f.delete();
         }
     }

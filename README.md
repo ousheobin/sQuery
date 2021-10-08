@@ -2,7 +2,7 @@
 
 [![Java Build](https://github.com/ousheobin/sQuery/actions/workflows/maven.yml/badge.svg)](https://github.com/ousheobin/sQuery/actions/workflows/maven.yml)
 
-一个很好玩的支持单表十亿行的百分比查询小工具。
+一个很好玩的支持 GB 级文件数据表（csv 格式）的百分比查询小工具。
 
 sQuery 的想法和核心代码来自于之前参与的一个分析引擎设计活动，需要设计一个多线程的引擎支持对 10 亿行多列的数据表进行准确的百分比查询。
 
@@ -63,6 +63,18 @@ mvn clean package -DskipTests
 1. load 阶段会根据表、列进行数据存储，并统计分布信息，以便高效查询
 2. 使用数值的前 n 位二进制值进行分桶，每次查询只需要载入少量数据即可
 3. 使用 Quick Select 算法，不需要排序即可找到 Top K 的值
+
+## BenchMark
+
+环境：阿里云 4C 4G 突发性能型 ECS + 普通云盘，JVM 版本 1.8.0_192
+
+数据：随机生成数据表，两列均为 long 类型共 300,000,000 行数据，约 12 GB
+
+随机数生成 `Math.round(Long.MAX_VALUE * Math.random())`
+
+Console 数据读取+解析用时：139,789 ms
+
+单线程恢复 Metadata + 查询 10 次，每十次查询平均耗时：2,552 ms，每查询平均耗时：255 ms
 
 ## 致谢
 

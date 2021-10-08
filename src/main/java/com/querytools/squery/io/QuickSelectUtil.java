@@ -10,7 +10,7 @@ import java.nio.channels.FileChannel;
 
 public class QuickSelectUtil {
 
-    private static final Logger LOGGER = Logger.getLogger(QuickSelectUtil.class);
+    private static final Logger logger = Logger.getLogger(QuickSelectUtil.class);
     private static final String CONCAT_SYMBOL = "$$";
 
     private TableRegistry registry = TableRegistry.getIntstance();
@@ -42,7 +42,7 @@ public class QuickSelectUtil {
         }
         long selectStart = System.currentTimeMillis();
         long res = doSelect(0, count - 1, index);
-        LOGGER.debug("[Performance] read ("+table+
+        logger.debug("[Performance] read ("+table+
                 ","+column+","+bucket+") in "+(selectStart - start)+" ms, select in "
                 + (System.currentTimeMillis() - selectStart) + " ms");
         return res;
@@ -60,7 +60,7 @@ public class QuickSelectUtil {
     }
 
     private int partition(int left, int right) {
-        long privot = data[right];
+        long privot = data[(left + right)/2];
         int swapLoc = left;
         for (int i = left; i <= right - 1; i++) {
             if (data[i] <= privot) {
@@ -78,7 +78,8 @@ public class QuickSelectUtil {
 
     public void loadData(File folder, int bucket, int count) throws IOException {
         if(data == null || data.length < count){
-            data = new long[count];
+            logger.debug("Buffer size not enough. Increase to " + (count + 1));
+            data = new long[count + 1];
         }
 
         if(buf == null){
@@ -96,25 +97,31 @@ public class QuickSelectUtil {
         for (File dataFile: files){
             RandomAccessFile raf = new RandomAccessFile(dataFile,"r");
             FileChannel channel = raf.getChannel();
-            buf.clear();
-            int len = channel.read(buf);
-            if(len == -1){
-                continue;
-            }
-            buf.flip();
-            while (true){
-                if(!buf.hasRemaining()){
-                    buf.clear();
-                    len = channel.read(buf);
-                    if(len == -1){
-                        break;
-                    }
-                    buf.flip();
+            try{
+                logger.debug("loading " + dataFile);
+                buf.clear();
+                int len = channel.read(buf);
+                if(len == -1){
+                    continue;
                 }
-                data[i ++] = buf.getLong();
+                buf.flip();
+                while (true){
+                    if(!buf.hasRemaining()){
+                        buf.clear();
+                        len = channel.read(buf);
+                        if(len == -1){
+                            break;
+                        }
+                        buf.flip();
+                    }
+                    data[i ++] = buf.getLong();
+                }
+                channel.close();
+                raf.close();
+            }catch (Exception ex){
+                logger.error("Error occurs when loading data file: " + dataFile + " channel:" + channel + " buf:" + buf, ex);
+                throw ex;
             }
-            channel.close();
-            raf.close();
         }
     }
 

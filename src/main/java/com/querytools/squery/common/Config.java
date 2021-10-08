@@ -54,6 +54,7 @@ public class Config {
         logger.debug("Normal Buffer Size: " + BUFFER_SIZE);
         logger.debug("Read Preparation Buffer Size: " + PREPARE_BUF_SIZE);
         logger.debug("Bucket mask bits: " + BUCKET_MASK_BITS);
+        logger.debug("Total Bucket: " + BUCKET_CNT);
     }
 
 }
