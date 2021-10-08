@@ -60,8 +60,11 @@ public class QuickSelectUtil {
     }
 
     private int partition(int left, int right) {
-        long privot = data[(left + right)/2];
+        int mid = (left + right)/2;
+        long privot = data[mid];
         int swapLoc = left;
+        data[mid] = data[right];
+        data[right] = privot;
         for (int i = left; i <= right - 1; i++) {
             if (data[i] <= privot) {
                 long tmp = data[swapLoc];
